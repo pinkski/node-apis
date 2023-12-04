@@ -1,8 +1,65 @@
 const express = require("express");
+const axios = require("axios");
 const app = express();
 const port = process.env.PORT || 3001;
+const HACKER_NEWS_URI = "https://hacker-news.firebaseio.com/v0";
 
 app.get("/", (req, res) => res.type('html').send(html));
+
+app.get("/hn/newstories", async (req, res) => {
+  try {
+    const response = await axios.get(`${HACKER_NEWS_URI}/newstories.json`);
+    res.json({
+      status: response.status,
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
+app.get("/hn/beststories", async (req, res) => {
+  try {
+    const response = await axios.get(`${HACKER_NEWS_URI}/beststories.json`);
+    res.json({
+      status: response.status,
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
+app.get("/hn/topstories", async (req, res) => {
+  try {
+    const response = await axios.get(`${HACKER_NEWS_URI}/topstories.json`);
+    res.json({
+      status: response.status,
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
+app.get("/hn/item/:storyId", async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    const response = await axios.get(`${HACKER_NEWS_URI}/item/${storyId}.json`);
+    res.json({
+      status: response.status,
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
+
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
