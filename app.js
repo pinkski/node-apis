@@ -59,6 +59,19 @@ app.get("/hn/item/:storyId", async (req, res) => {
   }
 });
 
+app.get("/hn/daily", async (req, res) => {
+  try {
+    const response = await axios.get(`https://api.hackerwebapp.com/news`);
+    res.json({
+      status: response.status,
+      data: response.data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
 
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
